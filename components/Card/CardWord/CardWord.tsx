@@ -40,7 +40,7 @@ export default function CardWord({ word, onNextClick, onPrevClick }: CardWordPro
   }
 
   return (
-    <Card className="w-[350px] h-screen flex flex-col	">
+    <Card className=" h-screen flex flex-col	">
       <CardHeader>
         <CardTitle>{word.word_en}</CardTitle>
         <CardDescription>{word.transcription}</CardDescription>
@@ -68,7 +68,7 @@ export default function CardWord({ word, onNextClick, onPrevClick }: CardWordPro
       {/* max-h-80 */}
       <CardContent className="flex justify-center max-h-72">
         <Image
-          className="rounded"
+          className="rounded max-h-48 object-cover"
           loading="lazy"
           placeholder="blur"
           src={word.img}
