@@ -1,9 +1,17 @@
 import CardWordList from '@/components/Card/CardWordList/CardWordList'
 
-export default function Topic() {
+interface TopicProps {
+  params: {
+    id: string
+  }
+}
+
+export default function Topic({ params: { id } }: TopicProps) {
+  console.log(id)
+
   return (
     <>
-      <CardWordList />
+      <CardWordList id={id} />
     </>
   )
 }

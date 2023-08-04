@@ -1,3 +1,4 @@
+import { StoreProvider } from '@/redux/provider'
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider'
 import './globals.css'
 import type { Metadata } from 'next'
@@ -15,12 +16,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <div className={styles.container}>
-            <Header />
-            {children}
-          </div>
-        </ThemeProvider>
+        <StoreProvider>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <div className={styles.container}>
+              <Header />
+              {children}
+            </div>
+          </ThemeProvider>
+        </StoreProvider>
       </body>
     </html>
   )

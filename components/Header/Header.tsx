@@ -28,5 +28,3 @@ export default function Header() {
     </div>
   )
 }
-
-// <div className="border">hello</div>
