@@ -52,11 +52,11 @@ export default function CardWord({
   // console.log(progress)
 
   return (
-    <>
+    <div className="">
       <div className="mb-4">
         <Progress value={progress} className="w-[100%] h-2" />
       </div>
-      <Card className=" h-screen flex flex-col	">
+      <Card style={{ height: '70vh' }} className="flex flex-col">
         <CardHeader>
           <CardTitle>{word.word_en}</CardTitle>
           <CardDescription>{word.transcription}</CardDescription>
@@ -105,6 +105,6 @@ export default function CardWord({
           </Button>
         </CardFooter>
       </Card>
-    </>
+    </div>
   )
 }

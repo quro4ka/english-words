@@ -8,7 +8,7 @@ export default function Header() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <div className="border p-6 mb-4 mt-4 rounded-lg flex justify-between items-center">
+    <div className="border py-3 px-6 mb-4 mt-4 rounded-lg flex justify-between items-center">
       <div>
         <Link href="/">EW</Link>
       </div>
