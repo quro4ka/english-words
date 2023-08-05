@@ -56,12 +56,12 @@ export default function CardWord({
       <div className="mb-4">
         <Progress value={progress} className="w-[100%] h-2" />
       </div>
-      <Card style={{ height: '100vh' }} className="flex flex-col">
+      <Card className="flex flex-col ">
         <CardHeader>
           <CardTitle>{word.word_en}</CardTitle>
           <CardDescription>{word.transcription}</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center grow">
+        <CardContent className="flex flex-col items-center ">
           <Button onClick={handleView} className="block mb-10">
             <Eye />
           </Button>
@@ -87,7 +87,7 @@ export default function CardWord({
             loading="lazy"
             placeholder="blur"
             src={word.img}
-            style={{}}
+            style={{ width: 288, height: 200 }}
             blurDataURL={
               'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8ePf9fwAJAgOuFA936gAAAABJRU5ErkJggg=='
             }
