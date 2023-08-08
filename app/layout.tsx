@@ -13,9 +13,11 @@ export const metadata: Metadata = {
   manifest: 'manifest.json',
 }
 
+// /themes/vocubalary/topic/1
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

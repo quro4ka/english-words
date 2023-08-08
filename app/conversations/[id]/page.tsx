@@ -6,9 +6,7 @@ interface TopicProps {
   }
 }
 
-export default function Topic({ params: { id } }: TopicProps) {
-  console.log(id)
-
+export default function Conversations({ params: { id } }: TopicProps) {
   return (
     <>
       <CardWordList id={id} />
