@@ -1,6 +1,11 @@
+'use client'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useGetThemesQuery } from '@/redux/services/themesApi'
 import Image from 'next/image'
 import Link from 'next/link'
+import { CardSkeleton } from '../CardSkeleton/CardSkeleton'
+import { CardError } from '../CardError/CardError'
 
 const vocabulary_first = [
   {
@@ -29,6 +34,27 @@ const vocabulary_first = [
 type CardProps = React.ComponentProps<typeof Card>
 
 export function CardThemes({}: CardProps) {
+  const { data, isLoading, isError } = useGetThemesQuery()
+
+  const getThemeRoute = (title: string) => {
+    switch (title) {
+      case 'vocabularies':
+        return 'vocabularies'
+      case 'conversations':
+        return 'conversations'
+      default:
+        return ''
+    }
+  }
+
+  if (isLoading) {
+    return <CardSkeleton count={2} />
+  }
+
+  if (isError) {
+    return <CardError error="Повторите попытку позднее" />
+  }
+
   return (
     <Card className="">
       <CardHeader>
@@ -37,22 +63,22 @@ export function CardThemes({}: CardProps) {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
-          {vocabulary_first.map((vocabulary, index) => (
+          {data.map((item, index) => (
             <Link
-              href={`/${vocabulary.theme}`}
-              key={index}
+              href={getThemeRoute(item.title)}
+              key={item._id}
               className="flex items-center mb-4 last:mb-0"
             >
               <Image
                 className="h-14 w-14 mr-6 rounded-full"
-                src={vocabulary.img}
+                src={item.img}
                 width={32}
                 height={32}
                 alt="img"
               />
               <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">{vocabulary.title}</p>
-                <p className="text-sm text-muted-foreground">{vocabulary.description}</p>
+                <p className="text-sm font-medium leading-none">{item.title}</p>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
               </div>
             </Link>
           ))}

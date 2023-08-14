@@ -21,8 +21,10 @@ import { Progress } from '@/components/ui/progress'
 
 interface WordProps {
   id: number | string
-  word_en: string
-  word_ru: string
+  word: {
+    en: string
+    ru: string
+  }
   img: string
   sentences?: any[]
   transcription: string
@@ -44,13 +46,11 @@ export default function CardWord({
   onPrevClick,
 }: CardWordProps) {
   const [isView, setIsView] = useState(false)
-  const [progress, setProgress] = useState((step / progressLength) * 100)
+  const progress = (step / progressLength) * 100
 
   const handleView = () => {
     setIsView((view) => !view)
   }
-
-  // console.log(progress)
 
   return (
     <>
@@ -59,7 +59,7 @@ export default function CardWord({
       </div>
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle>{word.word_en}</CardTitle>
+          <CardTitle>{word.word.en}</CardTitle>
           <CardDescription>{word.transcription}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center ">
@@ -68,11 +68,11 @@ export default function CardWord({
           </Button>
           {isView && (
             <>
-              <CardTitle className="mb-4">{word.word_ru}</CardTitle>
+              <CardTitle className="mb-4">{word.word.ru}</CardTitle>
               <Accordion type="single" collapsible className="w-full">
                 {word.sentences?.map((sentence, idx) => (
                   <>
-                    <AccordionItem value={`item-${idx}`}>
+                    <AccordionItem key={idx} value={`item-${idx}`}>
                       <AccordionTrigger>{sentence.en}</AccordionTrigger>
                       <AccordionContent>{sentence.ru}</AccordionContent>
                     </AccordionItem>

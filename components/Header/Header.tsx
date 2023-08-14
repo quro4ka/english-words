@@ -1,30 +1,23 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import { Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
 import Link from 'next/link'
+import { Card } from '../ui/card'
+import ThemeToggle from '../ThemeToggle/ThemeToggle'
+import Image from 'next/image'
 
 export default function Header() {
-  const { theme, setTheme } = useTheme()
-
   return (
     <div className="border py-3 px-6 mb-4 mt-4 rounded-lg flex justify-between items-center">
-      <div>
-        <Link href="/">EW</Link>
+      <Link href="/">
+        <Image
+          src="https://img.freepik.com/free-vector/branding-identity-corporate-vector-logo-m-design_460848-10168.jpg?w=1380&t=st=1691931455~exp=1691932055~hmac=b162885cbad55967f0cf2e7e9e58fd6bb0c6637c2a2020ce694ada1f48fa0c60"
+          width={40}
+          height={40}
+          alt="logo"
+          style={{ borderRadius: '50%' }}
+        />
+      </Link>
+      <div className="h-10">
+        <ThemeToggle />
       </div>
-      <Button variant="outline" size="icon">
-        {theme === 'light' ? (
-          <Sun
-            onClick={() => setTheme('dark')}
-            className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-          />
-        ) : (
-          <Moon
-            onClick={() => setTheme('light')}
-            className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-          />
-        )}
-      </Button>
     </div>
   )
 }
