@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { Card } from '../ui/card'
 import ThemeToggle from '../ThemeToggle/ThemeToggle'
 import Image from 'next/image'
+import { WholeWord } from 'lucide-react'
 
 export default function Header() {
   return (
@@ -15,8 +15,13 @@ export default function Header() {
           style={{ borderRadius: '50%' }}
         />
       </Link>
-      <div className="h-10">
-        <ThemeToggle />
+      <div className="flex items-center gap-6">
+        <Link href="/mywords">
+          <WholeWord />
+        </Link>
+        <div className="h-10">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   )

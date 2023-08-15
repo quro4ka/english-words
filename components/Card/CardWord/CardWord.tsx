@@ -14,13 +14,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Eye, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Eye, ArrowRight, ArrowLeft, Plus, Check } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Progress } from '@/components/ui/progress'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 interface WordProps {
-  id: number | string
+  _id: number | string
   word: {
     en: string
     ru: string
@@ -38,6 +39,12 @@ interface CardWordProps {
   onPrevClick: () => void
 }
 
+interface WordData {
+  id: string | number
+  en: string
+  ru: string
+}
+
 export default function CardWord({
   word,
   step,
@@ -48,9 +55,46 @@ export default function CardWord({
   const [isView, setIsView] = useState(false)
   const progress = (step / progressLength) * 100
 
+  const [isAdd, setIsAdd] = useState(false)
+  const [words, setWords] = useLocalStorage([], 'words')
+
   const handleView = () => {
     setIsView((view) => !view)
   }
+
+  const addWord = () => {
+    const wordData: WordData = {
+      id: word._id,
+      en: word.word.en,
+      ru: word.word.ru,
+    }
+
+    const localStorageWords = localStorage.getItem('words')
+
+    if (localStorageWords) {
+      const storage = JSON.parse(localStorageWords)
+      const isSaved = storage.find((item: any) => item.id === wordData.id)
+
+      if (!isSaved) {
+        setWords([...words, wordData])
+        setIsAdd(true)
+      }
+    }
+  }
+
+  useEffect(() => {
+    setIsAdd(false)
+    const localStorageWords = localStorage.getItem('words')
+
+    if (localStorageWords) {
+      const storage = JSON.parse(localStorageWords)
+      const isSaved = storage.find((item: any) => item.id === word._id)
+
+      if (isSaved) {
+        setIsAdd(true)
+      }
+    }
+  }, [progress])
 
   return (
     <>
@@ -59,8 +103,23 @@ export default function CardWord({
       </div>
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle>{word.word.en}</CardTitle>
-          <CardDescription>{word.transcription}</CardDescription>
+          <div className="flex justify-between items-center">
+            <div>
+              <CardTitle>{word.word.en}</CardTitle>
+              <CardDescription>{word.transcription}</CardDescription>
+            </div>
+            <div>
+              {isAdd ? (
+                <Button disabled className="">
+                  <Check />
+                </Button>
+              ) : (
+                <Button onClick={addWord} className="">
+                  <Plus />
+                </Button>
+              )}
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="flex flex-col items-center ">
           <Button onClick={handleView} className="block mb-10">

@@ -17,27 +17,6 @@ import { useGetTopicsQuery } from '@/redux/services/topicsApi'
 import { CardSkeleton } from '../CardSkeleton/CardSkeleton'
 import { CardError } from '../CardError/CardError'
 
-const vocabulary_first = [
-  {
-    id: 1,
-    title: 'Base vocabulary topic one',
-    description: '1 hour ago',
-    img: 'https://img.freepik.com/free-photo/ai-cloud-concept-with-robot-arm_23-2149739748.jpg?w=1800&t=st=1691066700~exp=1691067300~hmac=763fd7e47a7bdcf71a094ef1bae33ac327232db3408cfd20de7442f4f6434363',
-  },
-  {
-    id: 2,
-    title: 'Base vocabulary topic two',
-    description: '1 hour ago',
-    img: 'https://img.freepik.com/free-vector/flat-design-mountain-range-silhouette_23-2150491868.jpg?w=2000&t=st=1691066262~exp=1691066862~hmac=44ff915e34384c36acc563a3c3d4f18ac761e35aaf662bd6f53cd619e994c3e4',
-  },
-  {
-    id: 3,
-    title: 'Base vocabulary topic three',
-    description: '2 hours ago',
-    img: 'https://img.freepik.com/free-vector/flat-design-mountain-range-silhouette_23-2150491868.jpg?w=2000&t=st=1691066262~exp=1691066862~hmac=44ff915e34384c36acc563a3c3d4f18ac761e35aaf662bd6f53cd619e994c3e4',
-  },
-]
-
 type CardProps = React.ComponentProps<typeof Card>
 
 export function CardTopics({ title = '' }: CardProps) {
@@ -50,10 +29,6 @@ export function CardTopics({ title = '' }: CardProps) {
 
   if (isError) {
     return <CardError error="Ошибка при получении топиков" />
-  }
-
-  if (!!data) {
-    return null
   }
 
   return (

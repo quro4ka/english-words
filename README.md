@@ -16,6 +16,6 @@
 
 <h2>Установка:</h2>
 
-1. yarn install
+1. npm ci
 2. -> / -> npm run dev
 3. -> /api -> npm run dev
