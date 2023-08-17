@@ -19,6 +19,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Progress } from '@/components/ui/progress'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { Input } from '@/components/ui/input'
 
 interface WordProps {
   _id: number | string
@@ -35,8 +36,13 @@ interface CardWordProps {
   word: WordProps
   step: number
   progressLength: number
+  train?: boolean
+  inputValue: string
+  isFalsyAnswer: boolean
+  setInputValue: (value: string) => void
   onNextClick: () => void
   onPrevClick: () => void
+  onSubmitQuestion: () => void
 }
 
 interface WordData {
@@ -49,8 +55,13 @@ export default function CardWord({
   word,
   step,
   progressLength,
+  train = false,
   onNextClick,
   onPrevClick,
+  onSubmitQuestion,
+  inputValue,
+  setInputValue,
+  isFalsyAnswer,
 }: CardWordProps) {
   const [isView, setIsView] = useState(false)
   const progress = (step / progressLength) * 100
@@ -101,12 +112,12 @@ export default function CardWord({
       <div className="mb-4">
         <Progress value={progress} className="w-[100%] h-2" />
       </div>
-      <Card className="flex flex-col">
+      <Card className={`$flex flex-col ${isFalsyAnswer && 'bg-red-100'}`}>
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle>{word.word.en}</CardTitle>
-              <CardDescription>{word.transcription}</CardDescription>
+              <CardTitle>{train ? word.word.ru : word.word.en}</CardTitle>
+              <CardDescription>{train ? 'ru' : word.transcription}</CardDescription>
             </div>
             <div>
               {isAdd ? (
@@ -122,22 +133,39 @@ export default function CardWord({
           </div>
         </CardHeader>
         <CardContent className="flex flex-col items-center ">
-          <Button onClick={handleView} className="block mb-10">
-            <Eye />
-          </Button>
-          {isView && (
+          {train ? (
+            <div className="flex flex-col w-full max-w-sm gap-4">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className="w-full"
+                type="enter a word"
+                placeholder="Email"
+              />
+              <Button onClick={onSubmitQuestion} type="submit">
+                try
+              </Button>
+            </div>
+          ) : (
             <>
-              <CardTitle className="mb-4">{word.word.ru}</CardTitle>
-              <Accordion type="single" collapsible className="w-full">
-                {word.sentences?.map((sentence, idx) => (
-                  <>
-                    <AccordionItem key={idx} value={`item-${idx}`}>
-                      <AccordionTrigger>{sentence.en}</AccordionTrigger>
-                      <AccordionContent>{sentence.ru}</AccordionContent>
-                    </AccordionItem>
-                  </>
-                ))}
-              </Accordion>
+              <Button onClick={handleView} className="block mb-10">
+                <Eye />
+              </Button>
+              {isView && (
+                <>
+                  <CardTitle className="mb-4">{word.word.ru}</CardTitle>
+                  <Accordion type="single" collapsible className="w-full">
+                    {word.sentences?.map((sentence, idx) => (
+                      <>
+                        <AccordionItem key={idx} value={`item-${idx}`}>
+                          <AccordionTrigger>{sentence.en}</AccordionTrigger>
+                          <AccordionContent>{sentence.ru}</AccordionContent>
+                        </AccordionItem>
+                      </>
+                    ))}
+                  </Accordion>
+                </>
+              )}
             </>
           )}
         </CardContent>

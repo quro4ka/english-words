@@ -6,18 +6,26 @@ import { CardWordSkeleton } from '../CardWordSkeleton/CardWordSkeleton'
 import { CardError } from '../CardError/CardError'
 
 interface CardWordListProps {
-  id: string
+  train: boolean
+  id?: string
 }
 
-export default function CardWordList({ id }: CardWordListProps) {
+export default function CardWordList({ id = '', train }: CardWordListProps) {
   const { data, isLoading, isError } = useGetLessonQuery(id)
   const [step, setStep] = useState(0)
+  const [inputValue, setInputValue] = useState('')
+  const [isFalsyAnswer, setIsFalsyAnswer] = useState(false)
+
+  const word = data && data?.[step]
+  const progressLength = data?.length
 
   const onNextClick = () => {
     setStep((step) => step + 1)
     if (step === data?.length - 1) {
       setStep(0)
     }
+    setInputValue('')
+    setIsFalsyAnswer(false)
   }
 
   const onPrevClick = () => {
@@ -29,6 +37,20 @@ export default function CardWordList({ id }: CardWordListProps) {
 
     if (step <= 0) {
       setStep(data?.length - 1)
+    }
+
+    setInputValue('')
+    setIsFalsyAnswer(false)
+  }
+
+  const onSubmitQuestion = () => {
+    if (word.word.en === inputValue) {
+      onNextClick()
+      setInputValue('')
+      setIsFalsyAnswer(false)
+    } else {
+      setIsFalsyAnswer(true)
+      console.log('isFalsyAnswer', isFalsyAnswer)
     }
   }
 
@@ -44,9 +66,6 @@ export default function CardWordList({ id }: CardWordListProps) {
     return <CardError error="Список слов к сожалению отсутствует..." />
   }
 
-  const word = data && data?.[step]
-  const progressLength = data?.length
-
   return (
     <>
       <CardWord
@@ -54,8 +73,13 @@ export default function CardWordList({ id }: CardWordListProps) {
         word={word}
         step={step}
         progressLength={progressLength}
+        train={train}
         onNextClick={onNextClick}
         onPrevClick={onPrevClick}
+        onSubmitQuestion={onSubmitQuestion}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        isFalsyAnswer={isFalsyAnswer}
       />
     </>
   )

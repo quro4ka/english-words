@@ -2,6 +2,12 @@
 import { useEffect, useState } from 'react'
 import { CardRow } from '../CardRow/CardRow'
 
+interface IWord {
+  id: string
+  en: string
+  ru: string
+}
+
 export const CardTableList = () => {
   const [words, setWords] = useState([])
   const getWordsFromStorage = () => {
@@ -32,11 +38,8 @@ export const CardTableList = () => {
       return localStorage.setItem('words', JSON.stringify([]))
     }
 
-    const filteredWords = words.filter((word: any) => word.id !== id)
-    console.log(filteredWords)
+    const filteredWords = words.filter((word: IWord) => word.id !== id)
     setWords([...filteredWords])
-    console.log(words)
-
     localStorage.setItem('words', JSON.stringify(words))
   }
 

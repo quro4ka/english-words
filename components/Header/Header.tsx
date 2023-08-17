@@ -16,6 +16,9 @@ export default function Header() {
         />
       </Link>
       <div className="flex items-center gap-6">
+        <Link href="/train">
+          <WholeWord />
+        </Link>
         <Link href="/mywords">
           <WholeWord />
         </Link>

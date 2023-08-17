@@ -1,5 +1,9 @@
 import Word from '../models/word.model.js'
 
+const getRandomInRange = (min = 0, max) => {
+  console.log(min, max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 class WordController {
   async create(req, res) {
     try {
@@ -14,9 +18,24 @@ class WordController {
   async getAll(req, res) {
     try {
       const { id } = req.query
+      const RANDOM = 5
+      const randomWords = []
       const words = await Word.find()
-      const wordsById = words.filter((word) => word?.topic_id === id)
-      return res.json(wordsById)
+
+      if (id) {
+        const wordsById = words.filter((word) => word?.topic_id === id)
+        return res.json(wordsById)
+      }
+
+      console.log(words.length)
+
+      for (let i = 0; i < RANDOM; i++) {
+        const randomIndex = getRandomInRange(0, words.length)
+        console.log(randomIndex)
+        randomWords.push(words[randomIndex])
+      }
+
+      return res.json(randomWords)
     } catch (e) {
       res.status(500).json(e)
     }
