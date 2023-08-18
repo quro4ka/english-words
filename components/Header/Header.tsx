@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import ThemeToggle from '../ThemeToggle/ThemeToggle'
 import Image from 'next/image'
-import { WholeWord } from 'lucide-react'
+import { WholeWord, Footprints } from 'lucide-react'
 
 export default function Header() {
   return (
@@ -17,7 +17,7 @@ export default function Header() {
       </Link>
       <div className="flex items-center gap-6">
         <Link href="/train">
-          <WholeWord />
+          <Footprints />
         </Link>
         <Link href="/mywords">
           <WholeWord />

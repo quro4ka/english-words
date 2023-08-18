@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { Progress } from '@/components/ui/progress'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Input } from '@/components/ui/input'
+import { CardWordEnd } from '../CardWordEnd/CardWordEnd'
 
 interface WordProps {
   _id: number | string
@@ -39,8 +40,9 @@ interface CardWordProps {
   train?: boolean
   inputValue: string
   isFalsyAnswer: boolean
+  countRightAnswers: number
   setInputValue: (value: string) => void
-  onNextClick: () => void
+  onNextClick: (train?: any) => void
   onPrevClick: () => void
   onSubmitQuestion: () => void
 }
@@ -56,6 +58,7 @@ export default function CardWord({
   step,
   progressLength,
   train = false,
+  countRightAnswers,
   onNextClick,
   onPrevClick,
   onSubmitQuestion,
@@ -75,9 +78,9 @@ export default function CardWord({
 
   const addWord = () => {
     const wordData: WordData = {
-      id: word._id,
-      en: word.word.en,
-      ru: word.word.ru,
+      id: word?._id,
+      en: word?.word.en,
+      ru: word?.word.ru,
     }
 
     const localStorageWords = localStorage.getItem('words')
@@ -99,13 +102,17 @@ export default function CardWord({
 
     if (localStorageWords) {
       const storage = JSON.parse(localStorageWords)
-      const isSaved = storage.find((item: any) => item.id === word._id)
+      const isSaved = storage.find((item: any) => item.id === word?._id)
 
       if (isSaved) {
         setIsAdd(true)
       }
     }
   }, [progress])
+
+  if (train && progressLength === step) {
+    return <CardWordEnd countAnswers={countRightAnswers} />
+  }
 
   return (
     <>
@@ -116,7 +123,7 @@ export default function CardWord({
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle>{train ? word.word.ru : word.word.en}</CardTitle>
+              <CardTitle>{train ? word?.word.ru : word?.word.en}</CardTitle>
               <CardDescription>{train ? 'ru' : word.transcription}</CardDescription>
             </div>
             <div>
@@ -142,9 +149,7 @@ export default function CardWord({
                 type="enter a word"
                 placeholder="Email"
               />
-              <Button onClick={onSubmitQuestion} type="submit">
-                try
-              </Button>
+              <Button onClick={onSubmitQuestion}>try</Button>
             </div>
           ) : (
             <>
@@ -155,7 +160,7 @@ export default function CardWord({
                 <>
                   <CardTitle className="mb-4">{word.word.ru}</CardTitle>
                   <Accordion type="single" collapsible className="w-full">
-                    {word.sentences?.map((sentence, idx) => (
+                    {word?.sentences?.map((sentence, idx) => (
                       <>
                         <AccordionItem key={idx} value={`item-${idx}`}>
                           <AccordionTrigger>{sentence.en}</AccordionTrigger>
@@ -174,14 +179,14 @@ export default function CardWord({
             className="rounded max-h-48 object-cover"
             loading="lazy"
             placeholder="blur"
-            src={word.img}
+            src={word?.img}
             style={{ width: 288, height: 200 }}
             blurDataURL={
               'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8ePf9fwAJAgOuFA936gAAAABJRU5ErkJggg=='
             }
             width={288}
             height={200}
-            alt="aunt"
+            alt={word?.word.en}
           />
         </CardContent>
         <CardFooter className="flex justify-between">

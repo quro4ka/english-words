@@ -11,17 +11,18 @@ interface CardWordListProps {
 }
 
 export default function CardWordList({ id = '', train }: CardWordListProps) {
-  const { data, isLoading, isError } = useGetLessonQuery(id)
+  const { data, isLoading, isError, isSuccess } = useGetLessonQuery(id)
   const [step, setStep] = useState(0)
+  const [countRightAnswers, setCountRightAnswers] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [isFalsyAnswer, setIsFalsyAnswer] = useState(false)
 
-  const word = data && data?.[step]
-  const progressLength = data?.length
+  let word: any = null
+  let progressLength = null
 
   const onNextClick = () => {
     setStep((step) => step + 1)
-    if (step === data?.length - 1) {
+    if (!train && step === data?.length - 1) {
       setStep(0)
     }
     setInputValue('')
@@ -44,13 +45,15 @@ export default function CardWordList({ id = '', train }: CardWordListProps) {
   }
 
   const onSubmitQuestion = () => {
-    if (word.word.en === inputValue) {
+    if (word?.word.en === inputValue) {
       onNextClick()
       setInputValue('')
       setIsFalsyAnswer(false)
+      setCountRightAnswers((count) => count + 1)
+
+      console.log(countRightAnswers)
     } else {
       setIsFalsyAnswer(true)
-      console.log('isFalsyAnswer', isFalsyAnswer)
     }
   }
 
@@ -66,10 +69,15 @@ export default function CardWordList({ id = '', train }: CardWordListProps) {
     return <CardError error="Список слов к сожалению отсутствует..." />
   }
 
+  if (isSuccess) {
+    word = data && data?.[step]
+    progressLength = data?.length
+  }
+
   return (
     <>
       <CardWord
-        key={word.id}
+        key={word?.id}
         word={word}
         step={step}
         progressLength={progressLength}
@@ -80,6 +88,7 @@ export default function CardWordList({ id = '', train }: CardWordListProps) {
         inputValue={inputValue}
         setInputValue={setInputValue}
         isFalsyAnswer={isFalsyAnswer}
+        countRightAnswers={countRightAnswers}
       />
     </>
   )

@@ -27,11 +27,8 @@ class WordController {
         return res.json(wordsById)
       }
 
-      console.log(words.length)
-
       for (let i = 0; i < RANDOM; i++) {
-        const randomIndex = getRandomInRange(0, words.length)
-        console.log(randomIndex)
+        const randomIndex = getRandomInRange(0, words.length - 1)
         randomWords.push(words[randomIndex])
       }
 
