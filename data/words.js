@@ -181,4 +181,17 @@ export const words = [
     ],
     img: 'https://img.freepik.com/free-vector/credit-score-progress-bar_78370-646.jpg?w=1380&t=st=1690821686~exp=1690822286~hmac=e0db0a621c4a492b7edd086ff00d3f4b3d0cdffa98a3696498f343c1f9e7f421',
   },
+  {
+    id: 15,
+    word_en: 'one hundred one',
+    word_ru: 'сто один',
+    transcription: '[a:nt]',
+    sentences: [
+      {
+        en: 'my score was one hundred one',
+        ru: 'моя оценка была сто один',
+      },
+    ],
+    img: 'https://img.freepik.com/free-vector/credit-score-progress-bar_78370-646.jpg?w=1380&t=st=1690821686~exp=1690822286~hmac=e0db0a621c4a492b7edd086ff00d3f4b3d0cdffa98a3696498f343c1f9e7f421',
+  },
 ]

@@ -45,7 +45,7 @@ export default function CardWordList({ id = '', train }: CardWordListProps) {
   }
 
   const onSubmitQuestion = () => {
-    if (word?.word.en === inputValue) {
+    if (word?.word.en.trim().toLowerCase() === inputValue.trim().toLowerCase()) {
       onNextClick()
       setInputValue('')
       setIsFalsyAnswer(false)

@@ -98,6 +98,7 @@ export default function CardWord({
 
   useEffect(() => {
     setIsAdd(false)
+    setIsView(false)
     const localStorageWords = localStorage.getItem('words')
 
     if (localStorageWords) {
